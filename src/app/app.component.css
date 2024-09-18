@@ -1,0 +1,21 @@
+:host {
+  min-height: 100vh;
+  max-width: 100vw;
+  display: block !important;
+}
+
+::ng-deep .p-splitbutton, /* Aplica ao botão principal */
+::ng-deep .p-splitbutton .p-splitbutton-defaultbutton, /* Aplica ao botão principal */
+::ng-deep .p-splitbutton .p-splitbutton-menubutton:focus, /* Aplica ao botão de menu */
+::ng-deep .p-splitbutton .p-splitbutton-defaultbutton:focus,
+::ng-deep .p-splitbutton .p-splitbutton-menubutton {
+  border: none !important; /* Remove a borda */
+  box-shadow: none !important; /* Remove a sombra */
+  outline: none !important; /* Remove o contorno de foco */
+}
+
+::ng-deep .p-button {
+  border: none !important; /* Remove a borda */
+  box-shadow: none !important; /* Remove a sombra */
+  outline: none !important; /* Remove o contorno de foco */
+}

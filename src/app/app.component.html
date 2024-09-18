@@ -1,0 +1,17 @@
+<!-- <header class="w-full bg-zinc-700 h-[5vh]">aqui está o cabeçalho</header> -->
+<!-- <app-header /> -->
+
+<!-- Sidebar -->
+
+<!-- Conteúdo Principal -->
+
+<div class="flex dark:bg-slate-800 min-h-[100vh]">
+  <app-sidebar *ngIf="this.auth.isLoggedIn()" class="" />
+
+  <div class="flex flex-col w-full">
+    <app-header *ngIf="this.auth.isLoggedIn()" />
+    <div class="flex-1">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="w-full p-8 items-center justify-center">
+  <p-table
+    [value]="franquias"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{
+      'min-width': '50rem',
+      'max-width': '120rem',
+      'border-radius': '16px',
+      'background-color': '#2d3748'
+    }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header" class="">
+      <tr class="row-header">
+        <th class="text-blue-900 dark:bg-slate-800" style="width: 5%">
+          <!-- Cabeçalho para a coluna de checkbox -->
+          <p-checkbox
+            [binary]="true"
+            class="border-[1px] border-zinc-300 dark:border-none rounded-sm focus:outline-none"
+            [(ngModel)]="check"
+            [inputId]="'selectAll'"
+            (onChange)="selecionarTodos($event)"
+          />
+        </th>
+        <th
+          class="text-blue-900 dark:bg-slate-800 dark:text-gray-300"
+          style="width: 25%"
+        >
+          Nome
+        </th>
+        <th
+          class="text-blue-900 dark:bg-slate-800 dark:text-gray-300"
+          style="width: 25%"
+        >
+          Email
+        </th>
+        <th
+          class="text-blue-900 dark:bg-slate-800 dark:text-gray-300"
+          style="width: 25%"
+        >
+          Link
+        </th>
+        <th
+          class="text-blue-900 dark:bg-slate-800 dark:text-gray-300"
+          style="width: 25%"
+        >
+          Franquia
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-franquias>
+      <tr
+        class="hover:bg-blue-400 dark:bg-slate-700 dark:hover:bg-slate-800 dark:text-white hover:cursor-pointer hover:text-white dark:border-b-[0.5px] dark:border-gray-600 border-b-[0.5px] border-gray-300"
+      >
+        <td class="text-center">
+          <!-- Checkbox para capturar os dados de cada objeto -->
+          <p-checkbox
+            [ngModel]="selectedFranquias.has(franquias.iFranquiaID ?? 0)"
+            class="rounded-sm border-[1px] border-zinc-300 dark:border-none"
+            [binary]="true"
+            [inputId]="franquias.iFranquiID"
+            (onChange)="selecionarItemCheck(franquias, $event)"
+          />
+        </td>
+        <td (click)="eventEmitClickEditar(franquias)" class="">
+          {{ franquias.sNome }}
+        </td>
+        <td (click)="eventEmitClickEditar(franquias)" class="">
+          {{ franquias.sEmail }}
+        </td>
+        <td class="flex justify-between gap-2 text-blue-800 dark:text-blue-400">
+          {{ franquias.sLinkFranquia }}
+          <div>
+            <span
+              (click)="compartilharTextoApps(franquias.sLinkFranquia)"
+              class="pi pi-share-alt text-white text-[20px] font-bold p-2 bg-indigo-600 rounded-md cursor-pointer hover:bg-blue-800 hover:text-white"
+            >
+            </span>
+          </div>
+        </td>
+        <td (click)="eventEmitClickEditar(franquias)" class="">
+          {{ franquias.iCodFranquiaGerado }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

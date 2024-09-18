@@ -1,0 +1,14 @@
+:host ::ng-deep .p-dialog-header {
+  @apply dark:bg-slate-800 dark:text-white;
+}
+
+:host ::ng-deep .p-dialog-content {
+  @apply dark:bg-slate-700 dark:text-white;
+}
+
+:host ::ng-deep .p-dialog-footer {
+  @apply dark:bg-slate-700 dark:text-white;
+}
+:host ::ng-deep .p-dropdown {
+  @apply dark:bg-slate-800 h-12 dark:text-white;
+}

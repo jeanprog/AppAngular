@@ -1,0 +1,140 @@
+<div class="card flex justify-content-center">
+  <p-dialog
+    header="Header"
+    [(visible)]="visible"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    ngClass="teste"
+  >
+    <ng-template pTemplate="header">
+      <div class="inline-flex items-center justify-content-center gap-2">
+        <p-avatar
+          image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+          shape="circle"
+        />
+        <span class="font-bold white-space-nowrap"> Laser Franquiado</span>
+      </div>
+    </ng-template>
+    <div class="mt-4">
+      <form [formGroup]="form" class="lg:flex gap-2 justify-between">
+        <div class="flex flex-col gap-2">
+          <div *ngFor="let input of inputs" class="flex justify-between">
+            <label class="p-2">{{ input.label }}</label>
+            <input
+              class="border-[1px] rounded-lg border-zinc-300 p-2 h-12 focus:outline-none focus:border-indigo-400 dark:border-gray-600 dark:bg-slate-800"
+              [type]="input.type"
+              formControlName="{{ input.name }}"
+            />
+          </div>
+          <div
+            *ngIf="form.get('sEmail')?.invalid && form.get('sEmail')?.touched"
+          >
+            <span
+              class="text-red-600"
+              *ngIf="form.get('sEmail')?.errors?.['required']"
+              >O e-mail é obrigatório.</span
+            >
+            <span
+              class="text-red-600"
+              *ngIf="form.get('sEmail')?.errors?.['invalidEmail']"
+              >Formato de e-mail inválido.</span
+            >
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <p-dropdown
+            (onChange)="escolherLink($event)"
+            formControlName="sTipoLink"
+            [options]="[
+              { name: 'link único', code: 'U' },
+              { name: 'link elaborado', code: 'E' }
+            ]"
+            optionLabel="name"
+            optionValue="code"
+            placeholder="tipo de link parceiro"
+            [style]="{ 'min-width': '16rem' }"
+          >
+          </p-dropdown>
+          <label *ngIf="this.inputUnico" class="font-bold text-indigo-700"
+            >Cole o link do seu site</label
+          >
+          <input
+            formControlName="sLinkFranquia"
+            class="border-[1px] border-zinc-300 rounded-lg h-10"
+            *ngIf="form.value.sTipoLink === 'U'"
+          />
+
+          <label
+            *ngIf="this.elaborado"
+            class="font-bold text-indigo-700 dark:text-indigo-400"
+            >Gere o link personalizado</label
+          >
+
+          @if(this.elaborado){
+          <button
+            (click)="gerarLinkElaborado()"
+            class="bg-indigo-600 rounded-lg text-white w-20 h-8 flex justify-center"
+          >
+            gerar link
+          </button>
+          }
+          <span
+            class="text-blue-800 dark:text-blue-500"
+            *ngIf="form.value.sLinkFranquia && form.value.sTipoLink === 'E'"
+            >{{ form.value.sLinkFranquia }}</span
+          >
+
+          <div
+            (click)="copiarlink(form.value.sLinkFranquia)"
+            *ngIf="form.value.sLinkFranquia && form.value.sTipoLink === 'E'"
+            class="flex gap-2 items-center cursor-pointer hover:text-blue-900"
+          >
+            <span class="pi pi-clone"></span>
+            <p>Copiar</p>
+          </div>
+        </div>
+
+        <!--  <div class="flex flex-col gap-2">
+          <div *ngFor="let input of inputs" class="flex justify-between">
+            <label class="p-2">{{ input.label }}</label>
+            <input
+              class="border-[1px] rounded-lg border-zinc-300 p-2 focus:outline-none focus:border-indigo-400"
+              [type]="input.type"
+              formControlName="{{ input.name }}"
+            />
+          </div>
+        </div> -->
+        <!--  <div *ngFor="let input of inputs" class="flex justify-between">
+          <label>{{ input.label }}</label>
+          <input
+            class="border-[1px] rounded-lg border-zinc-300 p-2 focus:outline-none focus:border-indigo-400"
+            [type]="input.type"
+            formControlName="{{ input.name }}"
+          />
+        </div> -->
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex gap-4">
+        @if(preecherForm) {
+        <span class="text-red-700">preencha todos os Campos</span>
+        }
+        <p-button
+          class="bg-indigo-600 rounded-lg text-white w-32 h-12 flex justify-center"
+          [label]="PropsItemFranquia ? 'Alterar' : 'Cadastrar'"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="salvarDadosForms()"
+        />
+
+        <p-button
+          class="bg-red-400 rounded-lg text-white w-32 h-12 flex justify-center"
+          label="Cancelar"
+          [text]="true"
+          severity="secondary"
+          (onClick)="visible = false"
+        />
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

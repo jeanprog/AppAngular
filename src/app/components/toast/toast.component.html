@@ -1,0 +1,35 @@
+<p-toast>
+  <ng-template let-message pTemplate="headless" let-closeFn="closeFn">
+    <section
+      class="flex p-3 gap-3 w-full bg-gray-300 shadow-2"
+      style="border-radius: 10px"
+    >
+      <i class="pi pi-cloud-upload text-primary-500 text-2xl"></i>
+      <div class="grid-cols-1 gap-3 w-full">
+        <p class="m-0 font-semibold text-base text-white">
+          {{ message.summary }}
+        </p>
+        <p class="m-0 text-base text-700">
+          {{ message.detail }}
+        </p>
+
+        @if(this.visible === true) {
+        <div class="flex gap-4 mb-3 w-full">
+          <p-button
+            label="Deseja Excluir?"
+            [text]="true"
+            styleClass="p-0"
+            (onClick)="emitirEventoExcluir()"
+          />
+          <p-button
+            label="Cancelar"
+            [text]="true"
+            styleClass="text-white p-0"
+            (onClick)="closeFn($event)"
+          />
+        </div>
+        }
+      </div>
+    </section>
+  </ng-template>
+</p-toast>

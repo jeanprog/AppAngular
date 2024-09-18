@@ -1,0 +1,13 @@
+/* Exemplo de como mexer nos itens */
+:host ::ng-deep .p-panelmenu-header-action {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+
+  @apply bg-slate-200;
+}
+
+:host ::ng-deep .p-menuitem-icon {
+  font-size: 22px;
+  margin-left: 16px;
+}

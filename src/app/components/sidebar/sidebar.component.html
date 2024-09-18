@@ -1,0 +1,30 @@
+<div
+  class="bg-slate-200 min-h-[100%] flex flex-col items-center w-full md:block"
+  [ngClass]="isSidebarVisible ? 'block' : 'hidden'"
+>
+  <img
+    src="logoparceirando.png"
+    class="pb-4"
+    [ngClass]="showLabels ? 'h-36' : 'h-24'"
+  />
+
+  <div
+    class="card flex items-center"
+    [ngClass]="showLabels ? 'w-72' : 'max-w-22'"
+  >
+    <p-panelMenu
+      [model]="items"
+      id="custom-panel"
+      class="w-full p-2"
+      end
+    ></p-panelMenu>
+  </div>
+
+  <button
+    type="submit"
+    class="h-12 bg-slate-200 text-zinc-600 rounded-sm mt-16 pl-10"
+    (click)="logout()"
+  >
+    <i class="pi pi-sign-out"></i> Sair
+  </button>
+</div>

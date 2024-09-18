@@ -1,0 +1,27 @@
+:host ::ng-deep .row {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+  border: solid 1px blue;
+  border-radius: 16px !important;
+}
+:host ::ng-deep .p-table {
+  border-radius: 16px !important;
+}
+
+:host ::ng-deep .p-table .row-header {
+  background-color: #2d3748;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+:host ::ng-deep .p-paginator {
+  @apply dark:bg-slate-800;
+
+  @apply dark:text-white;
+}
+:host ::ng-deep .p-checkbox-box {
+  @apply dark:bg-gray-600;
+}
+
+:host ::ng-deep .p-paginator-rpp-options {
+  @apply dark:bg-slate-800;
+}

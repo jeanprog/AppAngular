@@ -1,0 +1,119 @@
+<div class="flex flex-col w-full items-center justify-center">
+  <app-dialog
+    [visible]="visible"
+    [inputs]="dialogInputs"
+    [PropsItemFranquia]="franquia"
+    (formularioEnviado)="submitForm($event)"
+    (copiarTexto)="copiarlink($event)"
+  />
+  <div class="w-full dark:bg-slate-700 p-4">
+    <span class="text-slate-400 font-bold text-[16px]"
+      >Lista de Franqueados</span
+    >
+  </div>
+  <div
+    class="w-[98%] rounded-lg mt-4 dark:bg-slate-700 gap-2 flex flex-col text-slate-400 p-4"
+    id="card"
+  >
+    <span class="text-[16px] font-bold">Tipos de planos para seu negócio </span>
+    <button class="bg-indigo-600 w-36 text-white text-[12px] rounded-lg p-2">
+      Adicionar plano
+    </button>
+    <span class="text-[12px]">Enquanto isso assista nossos tutorias</span>
+    <button class="text-[12px] bg-indigo-400 w-36 text-white rounded-lg p-2">
+      tutorias
+    </button>
+    <span class="text-[12px]">Siga nosso Canal no Linkedin</span>
+    <button class="bg-blue-500 w-36 text-white text-[12px] rounded-lg p-2">
+      linkedin
+    </button>
+  </div>
+</div>
+
+<!-- <p-splitButton
+  class="bg-indigo-600 text-white p-2 w-32 rounded-md mt-2 flex justify-center focus:border-none focus:outline-none"
+  label="Ações"
+  [model]="items"
+></p-splitButton> -->
+
+<p-messages
+  [(value)]="messages"
+  [enableService]="false"
+  class="flex justify-center items-center"
+/>
+<div class="flex w-full p-2 pr-12 justify-between items-center">
+  <div class="flex">
+    <button
+      (click)="this.exportCSV()"
+      class="bg-indigo-600 w-36 h-8 text-white text-[12px] rounded-l-lg hover:bg-indigo-800"
+    >
+      <span class="pi pi-file-excel"></span> Excel</button
+    ><button
+      (click)="this.gerarPDF()"
+      class="bg-indigo-600 w-36 text-white text-[12px] rounded-r-lg hover:bg-indigo-800"
+    >
+      <span class="pi pi-file-pdf"></span>
+      PDF
+    </button>
+  </div>
+
+  <div class="w-full flex justify-center items-center gap-4 mt-2">
+    <button
+      (click)="this.showDialog()"
+      class="bg-blue-600 w-36 text-white text-[12px] rounded-lg hover:bg-blue-700 p-2"
+    >
+      <span class="pi pi-user-plus"></span>
+      Criar Franqueado
+    </button>
+    <div class="relative w-96">
+      <input
+        type="text"
+        class="dark:text-white dark:bg-slate-700 h-12 rounded-lg w-full dark:border-gray-800 border border-gray-300 focus:border-blue-500 dark:focus:border-slate-200 focus:outline-none focus:ring-0 focus:ring-blue-500 pr-10 pl-4"
+        placeholder="Buscar..."
+        (keydown.enter)="buscaFranqueados($event)"
+        (input)="buscaFranqueados($event)"
+      />
+      <i
+        class="pi pi-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      ></i>
+    </div>
+    <!--   <input
+      type="text"
+      class="h-10 rounded-lg w-96 border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 focus:ring-blue-500"
+    /> -->
+
+    <p-dropdown
+      [options]="[
+        { name: 'Cliente', code: 'C' },
+        { name: 'Email', code: 'E' }
+      ]"
+      optionLabel="name"
+      optionValue="code"
+      placeholder="Filtro"
+      class="flex justify-center items-centers"
+      [style]="{ width: '16rem', height: '2.9rem' }"
+      (onChange)="tipoDefiltroBuscado($event)"
+    >
+    </p-dropdown>
+  </div>
+  <div class="">
+    <button
+      (click)="this.excluirFranqueados()"
+      class="bg-red-400 w-36 text-white text-[12px] h-8 rounded-lg p-2 hover:bg-red-600"
+    >
+      <span class="pi pi-trash"> </span>
+      Remover
+    </button>
+  </div>
+</div>
+<app-table
+  [franquias]="franquias"
+  [propsFimDeleteTodos]="deleteTodosFinalizado"
+  (itemEditar)="editarItem($event)"
+  (itemExcluir)="criaListaDeleteItem($event)"
+  (campartilhamento)="compartilharAppsExternos($event)"
+/>
+<toast
+  [toastConfig]="toastConfig"
+  (eventoExclusao)="finalizaDeleteNoBanco($event)"
+/>

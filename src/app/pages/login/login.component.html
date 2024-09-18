@@ -1,0 +1,71 @@
+<body class="h-full w-[100vw] m-[0.4rem] lg:w-[100%]">
+  <div class="flex flex-col pt-4das lg:pt-16 items-center">
+    <img src="logoparceirando.png" class="object-cover w-96 h-42 px-2" />
+
+    <span
+      *ngIf="isFormInValid"
+      class="text-red-700 border-[1px] border-red-600 p-2 rounded-sm"
+    >
+      Ops. por favor verifica seu email e senha
+    </span>
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onclick()"
+      id="form-field"
+      class="flex flex-col gap-6 lg:w-96 p-2 hover:border-red"
+    >
+      <div class="flex w-full">
+        <span
+          class="border-[1px] border-zinc-400 border-r-0 flex justify-center items-center w-16"
+        >
+          <i class="pi pi-user text-zinc-500 font-bold"></i>
+        </span>
+
+        <input
+          placeholder="Usuario"
+          id="username"
+          formControlName="usuario"
+          class="border-[1px] border-zinc-400 h-12 rounded-sm w-full p-2 focus:border-indigo-300 focus:shadow-indigo-200/50 focus:outline-none"
+        />
+      </div>
+      <div class="flex w-full">
+        <span
+          class="border-[1px] border-zinc-400 border-r-0 flex justify-center items-center w-16"
+        >
+          <i class="pi pi-lock text-zinc-500 font-bold"></i>
+        </span>
+
+        <input
+          type="password"
+          placeholder="Senha"
+          formControlName="senha"
+          class="border-zinc-400 border-[1px] w-full h-12 flex pl-2 focus:border-indigo-300 focus:shadow-indigo-200/50 focus:outline-none"
+        />
+      </div>
+      <button
+        type="submit"
+        class="h-12 bg-indigo-500 text-white font-bold rounded-sm hover:bg-indigo-700"
+      >
+        <i class="pi pi-check"></i> Enviar
+      </button>
+    </form>
+    <!--    <div class="mt-12">aqui outras info</div> -->
+    <div class="w-96 p-2 text-zinc-400 pt-8 flex gap-2 items-center">
+      <i class="pi pi-unlock font-bold"></i
+      ><a href=""> esqueceu sua senha ? </a>
+    </div>
+    <div class="flex px-4 flex-col w-96 pt-12 gap-4 text-zinc-400">
+      <span
+        >Torne-se um afiliado!
+        <a href="/login" class="text-[16px] font-bold text-zinc-500"
+          >clique aqui</a
+        ></span
+      >
+      <span class="text-[16px]">
+        Deseja conhecer mais Solucões?
+        <a class="font-bold text-zinc-500" href="/login">clique aqui</a>
+      </span>
+    </div>
+  </div>
+</body>

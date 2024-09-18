@@ -1,0 +1,40 @@
+<header
+  class="bg-slate-800 z-50 shadow-black text-white h-20 flex justify-between w-full items-center"
+  id="top-bar"
+>
+  <div class="flex gap-12 lg:pl-8 pl-4">
+    <button
+      (click)="showMenuClick()"
+      class="pi pi-bars lg:text-[24px] text-[24px]"
+    ></button>
+    <h1 class="font-bold text-[12px] lg:text-[16px]">
+      Bom Dia, <span class="text-indigo-400">Jean Roberto</span>
+    </h1>
+  </div>
+
+  <div class="flex items-center lg:gap-12 gap-2 lg:pr-12 pr-2">
+    <!--    <span
+      class="pi pi-lightbulb text-[32px] hover:cursor-pointer"
+      (click)="HabilitardarkMode()"
+    ></span> -->
+    @if(darkMode) {
+
+    <span
+      class="pi pi-lightbulb text-[16px] hover:cursor-pointer"
+      (click)="HabilitardarkMode()"
+    ></span>
+    }@else {
+    <span
+      class="pi pi-moon text-[16px] hover:cursor-pointer"
+      (click)="HabilitardarkMode()"
+    ></span>
+
+    }
+
+    <p-avatar
+      size="large"
+      image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+      shape="circle"
+    />
+  </div>
+</header>

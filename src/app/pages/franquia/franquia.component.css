@@ -1,0 +1,5 @@
+/* gambiarra */
+
+:host ::ng-deep .p-dropdown {
+  @apply dark:bg-slate-700;
+}
