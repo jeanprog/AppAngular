@@ -3,7 +3,7 @@
     <img src="logoparceirando.png" class="object-cover w-96 h-42 px-2" />
 
     <span
-      *ngIf="isFormInValid"
+      *ngIf="isFormInvalid || this.falhaNologin === true"
       class="text-red-700 border-[1px] border-red-600 p-2 rounded-sm"
     >
       Ops. por favor verifica seu email e senha
@@ -23,7 +23,7 @@
         </span>
 
         <input
-          placeholder="Usuario"
+          placeholder="Email"
           id="username"
           formControlName="usuario"
           class="border-[1px] border-zinc-400 h-12 rounded-sm w-full p-2 focus:border-indigo-300 focus:shadow-indigo-200/50 focus:outline-none"
