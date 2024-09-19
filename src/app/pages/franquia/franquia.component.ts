@@ -17,6 +17,7 @@ import { exportCSV } from '../../utils/export-csv';
 import { generatePdf } from '../../utils/export-pdf';
 import { ParceiroComponent } from '../parceiro/parceiro.component';
 import { DarkModeService } from '../../_core/services/dark-mode.service';
+import { AuthService } from '../../_core/services/auth.service';
 
 @Component({
   selector: 'app-franquia',
@@ -37,6 +38,7 @@ import { DarkModeService } from '../../_core/services/dark-mode.service';
 export class FranquiaComponent implements OnInit {
   constructor(private darkModeService: DarkModeService) {}
   private subscription = new Subscription();
+  private parceiro = inject(AuthService);
   @Input() visible: boolean = false;
 
   @Input() ModalEditar: boolean = false;
@@ -219,34 +221,39 @@ export class FranquiaComponent implements OnInit {
   }
 
   cadastraFranquia(franquia: Franquia) {
-    const novafranquia = new Franquia(
-      1,
-      3,
-      franquia.sNome,
-      franquia.sEmail,
-      franquia.sTipoLink,
-      franquia.sLinkFranquia,
-      1341,
-      new Date(),
-      franquia.sSenha
-    );
+    const user = this.parceiro.getLoggedUser();
+    if (user) {
+      const novafranquia = new Franquia(
+        user.iParceiroID,
+        user.iStoreID,
+        franquia.sNome,
+        franquia.sEmail,
+        franquia.sTipoLink,
+        franquia.sLinkFranquia,
+        1341,
+        new Date(),
+        franquia.sSenha
+      );
 
-    this.request.criarFranquia(novafranquia).subscribe({
-      next: (response: Franquia) => {
-        console.log(response);
-        this.toastConfig = {
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Franquia criada com sucesso!',
-        };
-        this.listaAlteraFranquia = [];
-        this.listarFranquias();
-        // Chama listarFranquias após a criação ser bem-sucedida
-      },
-      error: (error: any) => {
-        console.error('Erro ao criar franquia:', error);
-      },
-    });
+      this.request.criarFranquia(novafranquia).subscribe({
+        next: (response: Franquia) => {
+          console.log(response);
+          this.toastConfig = {
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Franquia criada com sucesso!',
+          };
+          this.listaAlteraFranquia = [];
+          this.listarFranquias();
+          // Chama listarFranquias após a criação ser bem-sucedida
+        },
+        error: (error: any) => {
+          console.error('Erro ao criar franquia:', error);
+        },
+      });
+    } else {
+      console.log('há algum erro com o parceiro associado');
+    }
   }
 
   AlterarFranquia(franquia: any) {
