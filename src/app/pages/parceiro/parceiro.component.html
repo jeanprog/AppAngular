@@ -10,13 +10,64 @@
     </h1>
     <div class="pl-16 pt-4 flex flex-col gap-2">
       <span class="font-bold">{{ user.sNome }}</span>
-      <span class="text-[14px] text-blue-400">{{ user.sLinkParceiro }}</span>
+      <span class="text-[14px] text-blue-400">{{ user.sLinkParceiro }} </span>
       <span class="text-[14px]">{{ user.sEmail }}</span>
     </div>
   </div>
-  <div
+
+  <form
+    [formGroup]="form"
     class="w-[96%] flex flex-col gap-2 p-4 dark:bg-slate-700 dark:border-none border-[1px] border-slate-400 rounded-lg text-slate-40 mt-4"
   >
-    <span class="font-bold text-slate-400"> Visualizar </span>
-  </div>
+    <span class="font-bold text-slate-400">Visualizar</span>
+    <!-- 
+    <span class="font-bold text-slate-500">Código Parceiro</span>
+    <input
+      formControlName="iParceiroID"
+      class="dark:bg-slate-600 text-slate-300 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
+      readonly
+    /> -->
+
+    <span class="font-bold text-slate-500">Nome</span>
+    <input
+      formControlName="sNome"
+      class="text-slate-300 dark:bg-slate-600 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
+      readonly
+    />
+
+    <span class="font-bold text-slate-500">Email</span>
+    <input
+      formControlName="sEmail"
+      class="text-slate-300 dark:bg-slate-600 p-2 dark:border-none focus:border-none border-[1px] border-slate-500 rounded-lg"
+      readonly
+    />
+
+    <span class="font-bold text-slate-500">Link Parceiro</span>
+    <input
+      formControlName="sLinkParceiro"
+      class="dark:bg-slate-600 text-slate-300 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
+      readonly
+    />
+
+    <!--  <span class="font-bold text-slate-500">Store</span>
+    <input
+      formControlName="iStoreID"
+      class="dark:bg-slate-600 text-slate-300 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
+      readonly
+    /> -->
+
+    <span class="font-bold text-slate-500">Senha</span>
+    <input
+      formControlName="sSenha"
+      class="dark:bg-slate-600 text-slate-300 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
+      type="password"
+    />
+
+    <button
+      (click)="abrirModalAlterarSenha()"
+      class="bg-indigo-600 rounded-lg p-2 w-32 text-white"
+    >
+      Alterar Senha
+    </button>
+  </form>
 </div>
