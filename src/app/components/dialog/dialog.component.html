@@ -124,7 +124,7 @@
     <span class="text-red-700">Preencha todos os Campos</span>
     } @if(PropsSenhasDiferentes === true){
     <span class="text-red-400">as Senhas novas, precisam ser iguais</span>
-    } @if(PropsSenhaDifereAntiga){
+    } @if(PropsSenhaDifereAntiga === true){
     <span class="text-red-400">Senha Antiga está incorreta!</span>
     }
     <ng-template pTemplate="footer">

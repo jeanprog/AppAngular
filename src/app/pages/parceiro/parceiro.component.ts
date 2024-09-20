@@ -114,6 +114,7 @@ export class ParceiroComponent {
           iStoreID: user.iStoreID,
           sNovaSenha: senhaNova,
         };
+        this.senhasDiferentes = false;
 
         console.log('vendo senha nova', senhaNova);
 
@@ -136,6 +137,9 @@ export class ParceiroComponent {
                   };
                   this.auth.updateSenhaNoLocalStorage(senhaNova);
                   this.buscaParceiro();
+                  this.modal.hide();
+                  this.senhaDifereAntiga = false;
+                  this.senhasDiferentes = false;
                 }
               },
               error: (error: any) => {

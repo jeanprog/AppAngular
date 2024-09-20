@@ -47,7 +47,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem(this.AUTH_KEY);
     localStorage.removeItem(this.USER_KEY);
-    this.router.navigate(['/login']); // Redireciona para a página de login após logout
+    localStorage.clear();
+    this.router.navigate(['/login']);
+    // Redireciona para a página de login após logout
   }
 
   isLoggedIn(): boolean {

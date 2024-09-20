@@ -93,8 +93,6 @@ export class DialogComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log(this.PropsSenhasDiferentes, 'dialog');
-
     if (this.PropsItemFranquia && this.PropsItemFranquia !== undefined) {
       this.form.get('sNome')?.setValue(this.PropsItemFranquia.sNome);
       this.form.get('sEmail')?.setValue(this.PropsItemFranquia.sEmail);
@@ -158,7 +156,6 @@ export class DialogComponent implements OnInit {
     if (this.form.valid) {
       this.formularioEnviado.emit(this.form.value);
       this.preecherForm = false;
-      this.visible = false;
     } else {
       this.preecherForm = true;
     }
@@ -191,6 +188,8 @@ export class DialogComponent implements OnInit {
     this.inputUnico = false;
     this.elaborado = false;
     this.preecherForm = false;
+    this.PropsSenhaDifereAntiga = false;
+    this.PropsSenhasDiferentes = false;
   }
   copiarlink(link: string) {
     const copiar = {

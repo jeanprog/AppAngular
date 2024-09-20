@@ -29,6 +29,7 @@ export class SidebarComponent implements OnInit {
   logout = () => {
     this.auth.logout();
     this.router.navigate(['']);
+    window.location.reload();
   };
   /*   ngDoCheck() {
     this.showLabels = this.showMenu.getMenuState();

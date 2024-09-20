@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { AuthService } from '../../_core/services/auth.service';
 import { LoginDTO } from '../../_core/DTOs/login-Dto';
+import { DarkModeService } from '../../_core/services/dark-mode.service';
 
 @Component({
   selector: 'app-login',
