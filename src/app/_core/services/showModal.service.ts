@@ -15,6 +15,7 @@ export class ShowModalService {
   // Exibe o modal e emite o novo estado
   show() {
     this.visibleSubject.next(true);
+    console.log('service');
   }
 
   // Oculta o modal e emite o novo estado

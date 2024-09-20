@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, Input } from '@angular/core';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Parceiro } from '../../_core/entities/Parceiro.entity';
 import { AuthService } from '../../_core/services/auth.service';
 import {
@@ -8,17 +8,23 @@ import {
   Validators,
   FormGroup,
 } from '@angular/forms';
-
+import { ShowModalService } from '../../_core/services/showModal.service';
+import { DialogComponent } from '../../components/dialog/dialog.component';
+import { LoginDTO } from '../../_core/DTOs/login-Dto';
 @Component({
   selector: 'app-parceiro',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, DialogComponent],
   templateUrl: './parceiro.component.html',
   styleUrl: './parceiro.component.css',
 })
 export class ParceiroComponent {
+  private auth = inject(AuthService);
   private fb = inject(FormBuilder);
   private parceiro = inject(AuthService);
+  private modal = inject(ShowModalService);
+  @Input() visible: boolean = false;
+
   user!: Parceiro;
   form: FormGroup = this.fb.group({
     iParceiroID: ['', Validators.required],
@@ -28,12 +34,26 @@ export class ParceiroComponent {
     iStoreID: ['', Validators.required],
     sSenha: ['', Validators.required],
   });
+  dialogInputs = [
+    { label: 'Nova senha', type: 'text', name: 'sSenhaNova', value: '' },
+    {
+      label: 'confirme a senha',
+      type: 'text',
+      name: 'sSenhaConfirme',
+      value: '',
+    },
+
+    { label: 'Senha antiga', type: 'password', name: 'sSenha', value: '' },
+  ];
 
   ngOnInit() {
     this.buscaParceiro();
+    this.observadorModal();
   }
-  abrirModalAlterarSenha() {
-    console.log('evento');
+  observadorModal() {
+    this.modal.visible$.subscribe((isVisible) => {
+      this.visible = isVisible;
+    });
   }
 
   buscaParceiro() {
@@ -52,5 +72,43 @@ export class ParceiroComponent {
     } else {
       console.log('houve alguma falha em exibir o usuario ');
     }
+  }
+
+  abrirModalAlterarSenha() {
+    this.visible = true;
+    this.modal.show();
+    console.log('acionado');
+  }
+
+  alterarSenhaRequest(event: any) {
+    const senhaAntiga = event.sSenha;
+    this.verificaSenhaAntiga(senhaAntiga).subscribe((confirmacao) => {
+      if (confirmacao) {
+        console.log('Senha confirmada');
+      } else {
+        console.error('Senha antiga incorreta.');
+      }
+    });
+  }
+
+  verificaSenhaAntiga(senha: string) {
+    const user = this.parceiro.getLoggedUser();
+    if (!user) {
+      return of(false); // Retorna `false` imediatamente se não houver usuário logado
+    }
+
+    const loginDTO: LoginDTO = {
+      sEmail: user.sEmail,
+      sSenha: senha,
+    };
+
+    // Retorna o Observable para ser assinado na `AlterarSenhaRequest`
+    return this.auth.login(loginDTO).pipe(
+      map((response) => !!response), // Converte o response em um booleano
+      catchError((error) => {
+        console.error('Erro no login:', error);
+        return of(false); // Em caso de erro, retorna `false`
+      })
+    );
   }
 }

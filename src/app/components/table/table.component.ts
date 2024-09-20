@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { Franquia } from '../../_core/entities/Franquia.entity';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../_core/services/auth.service';
 
 @Component({
   selector: 'app-table',
@@ -28,7 +30,10 @@ export class TableComponent implements OnChanges {
   @Output() campartilhamento = new EventEmitter<any>();
   @Output() itemEditar = new EventEmitter<any>();
   @Output() itemExcluir = new EventEmitter<any>();
+
+  private parceiro = inject(AuthService);
   selectedFranquias: Set<number> = new Set();
+  parceiroName!: string;
 
   check: boolean = false;
 
@@ -37,6 +42,10 @@ export class TableComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['franquias'] && changes['franquias'].currentValue) {
       // Confirme se os dados são atualizados corretamente
+      const user = this.parceiro.getLoggedUser();
+      if (user) {
+        this.parceiroName = user.sNome;
+      }
       this.cd.detectChanges(); // Força o Angular a detectar as mudanças
     }
     if (changes['propsFimDeleteTodos']) {

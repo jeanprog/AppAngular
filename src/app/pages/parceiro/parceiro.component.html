@@ -1,4 +1,10 @@
 <div class="w-full bg-slate-700 p-4">
+  <app-dialog
+    [visible]="visible"
+    [inputs]="dialogInputs"
+    (formularioEnviado)="alterarSenhaRequest($event)"
+    tipoModal="senha"
+  />
   <span class="font-bold text-slate-400">Visualizar parceiro </span>
 </div>
 <div class="h-[90%] mt-4 flex flex-col items-center">
@@ -61,6 +67,7 @@
       formControlName="sSenha"
       class="dark:bg-slate-600 text-slate-300 p-2 dark:border-none border-[1px] border-slate-500 rounded-lg"
       type="password"
+      readonly
     />
 
     <button

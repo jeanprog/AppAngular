@@ -23,6 +23,7 @@ import { FranquiaRepositoreService } from '../../_core/services/Franquia.service
 import { Franquia } from '../../_core/entities/Franquia.entity';
 import { Subscription } from 'rxjs';
 import { EmailValidator } from '../../utils/format-email';
+import { AuthService } from '../../_core/services/auth.service';
 
 @Component({
   selector: 'app-dialog',
@@ -49,6 +50,7 @@ export class DialogComponent implements OnInit {
   form: FormGroup = this.fb.group({});
   @Input() PropsItemFranquia?: Franquia;
   @Input() visible: boolean = false;
+  @Input() tipoModal: string | undefined;
   preecherForm: boolean = false;
 
   @Input() inputs: {
@@ -60,25 +62,32 @@ export class DialogComponent implements OnInit {
   @Output() formularioEnviado = new EventEmitter<any>();
   @Output() copiarTexto = new EventEmitter<any>();
   private onChangeSubscription: Subscription = new Subscription();
+  private parceiro = inject(AuthService);
 
   ngOnInit(): void {
     const formGroup: { [key: string]: any } = {};
+    console.log(this.tipoModal);
 
     // Adiciona controles ao formGroup com base no nome especificado no input
-    this.inputs.forEach((input) => {
-      formGroup[input.name] = [input.value || '', Validators.required];
-    });
-    formGroup['sTipoLink'] = ['', Validators.required];
-    formGroup['sLinkFranquia'] = ['', Validators.required];
-    formGroup['sEmail'] = [
-      '',
-      [Validators.required, EmailValidator.emailValidator],
-    ];
+    if (this.tipoModal === 'franquia') {
+      this.inputs.forEach((input) => {
+        formGroup[input.name] = [input.value || '', Validators.required];
+      });
+      formGroup['sTipoLink'] = ['', Validators.required];
+      formGroup['sLinkFranquia'] = ['', Validators.required];
+      formGroup['sEmail'] = [
+        '',
+        [Validators.required, EmailValidator.emailValidator],
+      ];
+    }
+    if (this.tipoModal === 'senha') {
+      this.inputs.forEach((input) => {
+        formGroup[input.name] = [input.value || '', Validators.required];
+      });
+    }
+    this.form = this.fb.group(formGroup);
 
     // Cria o FormGroup com os controles configurados
-    this.form = this.fb.group(formGroup);
-
-    this.form = this.fb.group(formGroup);
   }
 
   ngOnChanges() {
@@ -122,17 +131,28 @@ export class DialogComponent implements OnInit {
   }
 
   gerarLinkElaborado() {
-    const link = 'armadilo.com.br/franqueado?=';
-    const nome = this.form.get('sNome')?.value;
+    const user = this.parceiro.getLoggedUser();
+    if (user) {
+      const link = `${user.sLinkParceiro}/franqueado?=`;
+      const nome = this.form.get('sNome')?.value;
 
-    if (link && nome) {
-      //
+      if (link && nome) {
+        //
 
-      const nomesSemEspaços = nome.replace(/\s+/g, '');
-      const linkFormatado = link + nomesSemEspaços;
-      this.form.get('sLinkFranquia')?.setValue(linkFormatado.trim());
+        const nomesSemEspaços = nome.replace(/\s+/g, '');
+        const linkFormatado = link + nomesSemEspaços;
+        this.form.get('sLinkFranquia')?.setValue(linkFormatado.trim());
+      } else {
+        // soltar uma ação de form invalid !
+      }
     } else {
-      // soltar uma ação de form invalid !
+      console.log('nao localizou o parceiro');
+    }
+  }
+
+  enviarEventoAlterarSenha() {
+    if (this.form.valid) {
+      this.formularioEnviado.emit(this.form.value);
     }
   }
 
