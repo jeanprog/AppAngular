@@ -11,18 +11,23 @@ import {
 import { ShowModalService } from '../../_core/services/showModal.service';
 import { DialogComponent } from '../../components/dialog/dialog.component';
 import { LoginDTO } from '../../_core/DTOs/login-Dto';
+
+import { ParceirosServices } from '../../_core/services/Parceiros.service';
+import { updateParceiro } from '../../_core/entities/UpdateParceiro.entity';
+import { ToastComponent } from '../../components/toast/toast.component';
 @Component({
   selector: 'app-parceiro',
   standalone: true,
-  imports: [ReactiveFormsModule, DialogComponent],
+  imports: [ReactiveFormsModule, DialogComponent, ToastComponent],
   templateUrl: './parceiro.component.html',
   styleUrl: './parceiro.component.css',
 })
 export class ParceiroComponent {
   private auth = inject(AuthService);
   private fb = inject(FormBuilder);
-  private parceiro = inject(AuthService);
+
   private modal = inject(ShowModalService);
+  private request = inject(ParceirosServices);
   senhasDiferentes: boolean = false;
   senhaDifereAntiga: boolean = false;
   @Input() visible: boolean = false;
@@ -36,6 +41,15 @@ export class ParceiroComponent {
     iStoreID: ['', Validators.required],
     sSenha: ['', Validators.required],
   });
+
+  toastConfig: {
+    key?: string;
+    severity: string;
+    summary: string;
+    detail: string;
+    life?: number;
+  } | null = null;
+
   dialogInputs = [
     { label: 'Nova senha', type: 'text', name: 'sSenhaNova', value: '' },
     {
@@ -59,7 +73,7 @@ export class ParceiroComponent {
   }
 
   buscaParceiro() {
-    const user = this.parceiro.getLoggedUser();
+    const user = this.auth.getLoggedUser();
     if (user) {
       console.log('seu user na tela ', user);
       this.user = user;
@@ -83,31 +97,65 @@ export class ParceiroComponent {
   }
 
   alterarSenhaRequest(event: any) {
+    console.log(event);
     const senhaAntiga = event.sSenha;
     const senhaNova = event.sSenhaNova;
     const senhaConfirme = event.sSenhaConfirme;
+
     console.log(senhaAntiga, senhaNova, senhaConfirme);
 
+    // Verifica se as novas senhas são válidas
     if (senhaNova && senhaConfirme && senhaNova === senhaConfirme) {
-      this.verificaSenhaAntiga(senhaAntiga).subscribe((confirmacao) => {
-        if (confirmacao) {
-          console.log('Senha confirmada');
-          this.senhasDiferentes = false;
-          this.senhaDifereAntiga = false;
-          // escrever aqui logica de request alterar senha
-        } else {
-          console.error('Senha antiga incorreta.');
-          this.senhaDifereAntiga = true;
-        }
-      });
+      const user = this.auth.getLoggedUser();
+
+      if (user) {
+        const alteraSenha: updateParceiro = {
+          iParceiroID: user.iParceiroID,
+          iStoreID: user.iStoreID,
+          sNovaSenha: senhaNova,
+        };
+
+        console.log('vendo senha nova', senhaNova);
+
+        // Verifica a senha antiga
+        this.verificaSenhaAntiga(senhaAntiga).subscribe((confirmacao) => {
+          if (confirmacao) {
+            console.log('Senha confirmada');
+            this.senhasDiferentes = false;
+            this.senhaDifereAntiga = false;
+
+            // Chama a função para alterar a senha
+            this.request.updateSenhaParceiroHttp(alteraSenha).subscribe({
+              next: (response: any) => {
+                console.log('Operação concluída com sucesso:', response);
+                if (response === true) {
+                  this.toastConfig = {
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Senha alterada com sucesso!',
+                  };
+                  this.auth.updateSenhaNoLocalStorage(senhaNova);
+                  this.buscaParceiro();
+                }
+              },
+              error: (error: any) => {
+                console.error('Erro ao alterar a senha:', error);
+              },
+            });
+          } else {
+            console.error('Senha antiga incorreta.');
+            this.senhaDifereAntiga = true;
+          }
+        });
+      }
     } else {
-      console.log('suas senhas não são iguais');
+      console.log('As senhas não são iguais');
       this.senhasDiferentes = true;
     }
   }
 
   verificaSenhaAntiga(senha: string) {
-    const user = this.parceiro.getLoggedUser();
+    const user = this.auth.getLoggedUser();
     if (!user) {
       return of(false); // Retorna `false` imediatamente se não houver usuário logado
     }

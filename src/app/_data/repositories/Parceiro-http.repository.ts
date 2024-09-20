@@ -6,6 +6,7 @@ import { Parceiro } from '../../_core/entities/Parceiro.entity';
 import { ParceiroRepository } from '../../_core/interfaces/Parceiro-repository.interface';
 import { environment } from '../../../environments/environment.development';
 import { LoginDTO } from '../../_core/DTOs/login-Dto';
+import { updateParceiro } from '../../_core/entities/UpdateParceiro.entity';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class ParceiroHttpRepository implements ParceiroRepository {
   constructor(private http: HttpClient) {}
 
   private api = environment.apiUrl;
+
   loginParceiro(parceiro: LoginDTO): Observable<Parceiro[]> {
     const api = `${this.api}Parceiros/LoginParceiro`;
 
@@ -24,8 +26,10 @@ export class ParceiroHttpRepository implements ParceiroRepository {
       })
     );
   }
-  updateParceiro(Parceiro: Parceiro): Observable<Parceiro> {
-    throw new Error('Method not implemented.');
+  updateParceiro(parceiro: updateParceiro): Observable<updateParceiro> {
+    const api = `${this.api}Parceiros/AlterarSenhaParceiro`;
+    console.log('repository,', parceiro, api);
+    return this.http.post<updateParceiro>(api, parceiro);
   }
 
   /* 

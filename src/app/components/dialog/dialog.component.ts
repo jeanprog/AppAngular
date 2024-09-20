@@ -158,6 +158,7 @@ export class DialogComponent implements OnInit {
     if (this.form.valid) {
       this.formularioEnviado.emit(this.form.value);
       this.preecherForm = false;
+      this.visible = false;
     } else {
       this.preecherForm = true;
     }

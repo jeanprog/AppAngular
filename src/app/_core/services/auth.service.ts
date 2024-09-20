@@ -58,4 +58,13 @@ export class AuthService {
     const user = localStorage.getItem(this.USER_KEY);
     return user ? JSON.parse(user) : null; // Retorna o usuário logado, se existir
   }
+
+  updateSenhaNoLocalStorage(novaSenha: string): void {
+    const user = this.getLoggedUser(); // Recupera o usuário atual
+    if (user) {
+      console.log('senhastorage', novaSenha);
+      user.sSenha = novaSenha; // Atualiza o campo sSenha
+      localStorage.setItem(this.USER_KEY, JSON.stringify(user)); // Salva o usuário atualizado
+    }
+  }
 }
