@@ -49,6 +49,8 @@ export class DialogComponent implements OnInit {
 
   form: FormGroup = this.fb.group({});
   @Input() PropsItemFranquia?: Franquia;
+  @Input() PropsSenhasDiferentes: boolean = false;
+  @Input() PropsSenhaDifereAntiga: boolean = false;
   @Input() visible: boolean = false;
   @Input() tipoModal: string | undefined;
   preecherForm: boolean = false;
@@ -91,6 +93,8 @@ export class DialogComponent implements OnInit {
   }
 
   ngOnChanges() {
+    console.log(this.PropsSenhasDiferentes, 'dialog');
+
     if (this.PropsItemFranquia && this.PropsItemFranquia !== undefined) {
       this.form.get('sNome')?.setValue(this.PropsItemFranquia.sNome);
       this.form.get('sEmail')?.setValue(this.PropsItemFranquia.sEmail);
@@ -153,6 +157,9 @@ export class DialogComponent implements OnInit {
   enviarEventoAlterarSenha() {
     if (this.form.valid) {
       this.formularioEnviado.emit(this.form.value);
+      this.preecherForm = false;
+    } else {
+      this.preecherForm = true;
     }
   }
 

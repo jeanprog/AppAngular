@@ -2,6 +2,8 @@
   <app-dialog
     [visible]="visible"
     [inputs]="dialogInputs"
+    [PropsSenhasDiferentes]="senhasDiferentes"
+    [PropsSenhaDifereAntiga]="senhaDifereAntiga"
     (formularioEnviado)="alterarSenhaRequest($event)"
     tipoModal="senha"
   />

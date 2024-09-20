@@ -23,6 +23,8 @@ export class ParceiroComponent {
   private fb = inject(FormBuilder);
   private parceiro = inject(AuthService);
   private modal = inject(ShowModalService);
+  senhasDiferentes: boolean = false;
+  senhaDifereAntiga: boolean = false;
   @Input() visible: boolean = false;
 
   user!: Parceiro;
@@ -82,13 +84,26 @@ export class ParceiroComponent {
 
   alterarSenhaRequest(event: any) {
     const senhaAntiga = event.sSenha;
-    this.verificaSenhaAntiga(senhaAntiga).subscribe((confirmacao) => {
-      if (confirmacao) {
-        console.log('Senha confirmada');
-      } else {
-        console.error('Senha antiga incorreta.');
-      }
-    });
+    const senhaNova = event.sSenhaNova;
+    const senhaConfirme = event.sSenhaConfirme;
+    console.log(senhaAntiga, senhaNova, senhaConfirme);
+
+    if (senhaNova && senhaConfirme && senhaNova === senhaConfirme) {
+      this.verificaSenhaAntiga(senhaAntiga).subscribe((confirmacao) => {
+        if (confirmacao) {
+          console.log('Senha confirmada');
+          this.senhasDiferentes = false;
+          this.senhaDifereAntiga = false;
+          // escrever aqui logica de request alterar senha
+        } else {
+          console.error('Senha antiga incorreta.');
+          this.senhaDifereAntiga = true;
+        }
+      });
+    } else {
+      console.log('suas senhas não são iguais');
+      this.senhasDiferentes = true;
+    }
   }
 
   verificaSenhaAntiga(senha: string) {
@@ -107,7 +122,7 @@ export class ParceiroComponent {
       map((response) => !!response), // Converte o response em um booleano
       catchError((error) => {
         console.error('Erro no login:', error);
-        return of(false); // Em caso de erro, retorna `false`
+        return of(false);
       })
     );
   }

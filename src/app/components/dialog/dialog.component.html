@@ -120,27 +120,34 @@
         </div> -->
       </form>
     </div>
+    @if(preecherForm) {
+    <span class="text-red-700">Preencha todos os Campos</span>
+    } @if(PropsSenhasDiferentes === true){
+    <span class="text-red-400">as Senhas novas, precisam ser iguais</span>
+    } @if(PropsSenhaDifereAntiga){
+    <span class="text-red-400">Senha Antiga está incorreta!</span>
+    }
     <ng-template pTemplate="footer">
       <div class="flex gap-4">
-        @if(preecherForm) {
-        <span class="text-red-700">preencha todos os Campos</span>
-        } @if(tipoModal === 'franquia') {
-        <p-button
-          class="bg-indigo-600 rounded-lg text-white w-32 h-12 flex justify-center"
-          [label]="PropsItemFranquia ? 'Alterar' : 'Cadastrar'"
-          [outlined]="true"
-          severity="secondary"
-          (onClick)="salvarDadosForms()"
-        />
-        } @if(tipoModal ==='senha') {
-        <p-button
-          class="bg-indigo-600 rounded-lg text-white w-32 h-12 flex justify-center"
-          label="Alterar"
-          [outlined]="true"
-          severity="secondary"
-          (onClick)="enviarEventoAlterarSenha()"
-        />
-        }
+        <div class="flex">
+          @if(tipoModal === 'franquia') {
+          <p-button
+            class="bg-indigo-600 rounded-lg text-white w-32 h-12 flex justify-center"
+            [label]="PropsItemFranquia ? 'Alterar' : 'Cadastrar'"
+            [outlined]="true"
+            severity="secondary"
+            (onClick)="salvarDadosForms()"
+          />
+          } @if(tipoModal ==='senha') {
+          <p-button
+            class="bg-indigo-600 rounded-lg text-white w-32 h-12 flex justify-center"
+            label="Alterar"
+            [outlined]="true"
+            severity="secondary"
+            (onClick)="enviarEventoAlterarSenha()"
+          />
+          }
+        </div>
 
         <p-button
           class="bg-red-400 rounded-lg text-white w-32 h-12 flex justify-center"
