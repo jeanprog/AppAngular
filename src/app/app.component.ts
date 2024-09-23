@@ -35,5 +35,7 @@ export class AppComponent {
 
   ngOnDestroy() {
     this.subscription.unsubscribe(); // Limpa a inscrição para evitar vazamentos de memória
+    this.auth.logout();
+    localStorage.clear();
   }
 }

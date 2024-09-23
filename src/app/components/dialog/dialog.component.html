@@ -25,7 +25,7 @@
           <div *ngFor="let input of inputs" class="flex justify-between">
             <label class="p-2">{{ input.label }}</label>
             <input
-              class="border-[1px] rounded-lg border-zinc-300 p-2 h-12 focus:outline-none focus:border-indigo-400 dark:border-gray-600 dark:bg-slate-800"
+              class="border-[1px] dark:focus:border[1px] dark:focus:border-slate-200 rounded-lg border-zinc-300 p-2 h-12 focus:outline-none focus:border-indigo-400 dark:border-gray-600 dark:bg-slate-800"
               [type]="input.type"
               formControlName="{{ input.name }}"
             />
@@ -57,16 +57,24 @@
             optionLabel="name"
             optionValue="code"
             placeholder="tipo de link parceiro"
-            [style]="{ 'min-width': '16rem' }"
+            [style]="{
+              'min-width': '16rem',
+              border: 'none',
+              'box-shadow': 'none',
+              outline: 'none'
+            }"
           >
           </p-dropdown>
           }
-          <label *ngIf="this.inputUnico" class="font-bold text-indigo-700"
-            >Cole o link do seu site</label
+          <label
+            *ngIf="this.inputUnico"
+            class="font-bold text-indigo-700 dark:text-indigo-400"
+            >link do seu site</label
           >
           <input
             formControlName="sLinkFranquia"
-            class="border-[1px] border-zinc-300 rounded-lg h-10"
+            readonly
+            class="border-[1px] p-2 border-zinc-300 rounded-lg dark:border-none dark:outline-none focus:outline-none dark:bg-slate-800 dark:text-slate-300 text-rounded-lg h-10"
             *ngIf="form.value.sTipoLink === 'U'"
           />
 

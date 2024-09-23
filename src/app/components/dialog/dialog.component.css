@@ -10,5 +10,11 @@
   @apply dark:bg-slate-700 dark:text-white;
 }
 :host ::ng-deep .p-dropdown {
-  @apply dark:bg-slate-800 h-12 dark:text-white;
+  @apply dark:bg-slate-800 h-12 dark:text-white dark:focus:outline-none  dark:focus:border-none;
+}
+:host ::ng-deep .p-dropdown:focus,
+:host ::ng-deep .p-dropdown:focus-visible {
+  outline: none;
+  box-shadow: none; /* Remove qualquer sombra que possa aparecer no foco */
+  border: 0 !important; /* Remove qualquer borda adicionada pelo foco */
 }

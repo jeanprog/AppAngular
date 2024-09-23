@@ -119,9 +119,15 @@ export class DialogComponent implements OnInit {
     const selectedValue = event.value; // Valor selecionado
 
     if (selectedValue === 'U') {
+      const user = this.parceiro.getLoggedUser();
+      if (!user) {
+        throw new Error('user não encontrado');
+      }
+
       this.inputUnico = true;
       this.elaborado = false;
-      this.form.get('sLink')?.setValue('');
+      console.log(user.sLinkParceiro);
+      this.form.get('sLinkFranquia')?.setValue(user.sLinkParceiro);
       this.form.get('sTipoLink')?.setValue(selectedValue);
     } else if (selectedValue === 'E') {
       this.elaborado = true;
