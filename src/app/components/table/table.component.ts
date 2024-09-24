@@ -30,6 +30,7 @@ export class TableComponent implements OnChanges {
   @Output() campartilhamento = new EventEmitter<any>();
   @Output() itemEditar = new EventEmitter<any>();
   @Output() itemExcluir = new EventEmitter<any>();
+  @Output() AbrirComissao = new EventEmitter<any>();
 
   private parceiro = inject(AuthService);
   selectedFranquias: Set<number> = new Set();
@@ -89,6 +90,9 @@ export class TableComponent implements OnChanges {
 
   eventEmitClickEditar(franquia: Franquia) {
     this.itemEditar.emit(franquia);
+  }
+  eventEmitClickComissao(franquia: Franquia) {
+    this.AbrirComissao.emit(franquia);
   }
 
   selecionarItemCheck(franquia: Franquia, event: any) {

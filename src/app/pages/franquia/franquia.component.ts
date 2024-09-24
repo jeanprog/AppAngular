@@ -16,6 +16,7 @@ import { UpdateFranquia } from '../../_core/entities/UpdateFranquia.entity';
 import { exportCSV } from '../../utils/export-csv';
 import { generatePdf } from '../../utils/export-pdf';
 import { ParceiroComponent } from '../parceiro/parceiro.component';
+import { ComissaoComponent } from '../comissao/comissao.component';
 import { DarkModeService } from '../../_core/services/dark-mode.service';
 import { AuthService } from '../../_core/services/auth.service';
 
@@ -30,6 +31,7 @@ import { AuthService } from '../../_core/services/auth.service';
     DialogComponent,
     MessagesModule,
     DropdownModule,
+    ComissaoComponent,
   ],
 
   templateUrl: './franquia.component.html',
@@ -53,6 +55,7 @@ export class FranquiaComponent implements OnInit {
   listaDeletarFranquia: Franquia[] = [];
   tipoDeFiltro?: string;
   deleteTodosFinalizado: boolean = false;
+  comissao: boolean = false;
 
   toastConfig: {
     key?: string;
@@ -105,6 +108,17 @@ export class FranquiaComponent implements OnInit {
     { label: 'senha', type: 'password', name: 'sSenha', value: '' },
     // Adicione mais inputs conforme necessário
   ];
+
+  AbrirComissaoEvent(event: any) {
+    this.comissao = true;
+    if (event) {
+      this.franquia = event;
+    }
+  }
+  fecharComissaoEvent() {
+    this.comissao = false;
+    console.log('acionado evento fechar', this.comissao);
+  }
 
   observadorDarkMode() {
     this.subscription.add(

@@ -22,7 +22,7 @@ export class AuthService {
     // Fazendo a requisição de login
     return this.parceiroHttp.loginParceiro(parceiro).pipe(
       map((response) => {
-        // Verifica se a resposta é um array e se contém algum elemento
+        // Verifica se a resposta é um array e se contém algum elementocd
         if (Array.isArray(response) && response.length > 0) {
           return response[0]; // Retorna o primeiro usuário
         } else {

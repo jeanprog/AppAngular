@@ -45,7 +45,7 @@
           class="text-blue-900 dark:bg-slate-800 dark:text-gray-300"
           style="width: 25%"
         >
-          Nome Parceiro
+          Ações
         </th>
       </tr>
     </ng-template>
@@ -69,18 +69,21 @@
         <td (click)="eventEmitClickEditar(franquias)" class="">
           {{ franquias.sEmail }}
         </td>
-        <td class="flex justify-between gap-2 text-blue-800 dark:text-blue-400">
+        <td class="text-blue-800 dark:text-blue-400">
           {{ franquias.sLinkFranquia }}
-          <div>
-            <span
-              (click)="compartilharTextoApps(franquias.sLinkFranquia)"
-              class="pi pi-share-alt text-white text-[20px] font-bold p-2 bg-indigo-600 rounded-md cursor-pointer hover:bg-blue-800 hover:text-white"
-            >
-            </span>
-          </div>
         </td>
-        <td (click)="eventEmitClickEditar(franquias)" class="">
-          {{ this.parceiroName }}
+        <td class="flex gap-2 pr-2">
+          <span
+            (click)="compartilharTextoApps(franquias.sLinkFranquia)"
+            class="pi pi-share-alt text-white text-[20px] font-bold p-2 bg-indigo-600 rounded-md cursor-pointer hover:bg-blue-800 hover:text-white"
+          >
+          </span>
+          <button
+            (click)="eventEmitClickComissao(franquias)"
+            class="bg-indigo-800 p-2 rounded-lg text-white"
+          >
+            comissão
+          </button>
         </td>
       </tr>
     </ng-template>

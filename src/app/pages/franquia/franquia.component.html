@@ -1,3 +1,4 @@
+@if(comissao === false) {
 <div class="flex flex-col w-full items-center justify-center">
   <app-dialog
     [visible]="visible"
@@ -32,10 +33,10 @@
 </div>
 
 <!-- <p-splitButton
-  class="bg-indigo-600 text-white p-2 w-32 rounded-md mt-2 flex justify-center focus:border-none focus:outline-none"
-  label="Ações"
-  [model]="items"
-></p-splitButton> -->
+    class="bg-indigo-600 text-white p-2 w-32 rounded-md mt-2 flex justify-center focus:border-none focus:outline-none"
+    label="Ações"
+    [model]="items"
+  ></p-splitButton> -->
 
 <p-messages
   [(value)]="messages"
@@ -79,9 +80,9 @@
       ></i>
     </div>
     <!--   <input
-      type="text"
-      class="h-10 rounded-lg w-96 border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 focus:ring-blue-500"
-    /> -->
+        type="text"
+        class="h-10 rounded-lg w-96 border border-gray-300 focus:border-blue-500 focus:outline-none focus:ring-0 focus:ring-blue-500"
+      /> -->
 
     <p-dropdown
       [options]="[
@@ -113,8 +114,12 @@
   (itemEditar)="editarItem($event)"
   (itemExcluir)="criaListaDeleteItem($event)"
   (campartilhamento)="compartilharAppsExternos($event)"
+  (AbrirComissao)="AbrirComissaoEvent($event)"
 />
 <toast
   [toastConfig]="toastConfig"
   (eventoExclusao)="finalizaDeleteNoBanco($event)"
 />
+} @else {
+<app-comissao (fechar)="fecharComissaoEvent()" [PropsItemFranquia]="franquia" />
+}

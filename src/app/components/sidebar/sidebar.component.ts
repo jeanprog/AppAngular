@@ -68,11 +68,7 @@ export class SidebarComponent implements OnInit {
 
         items: [],
       },
-      {
-        label: this.showLabels ? 'Comissão' : '',
-        icon: 'pi pi-desktop',
-        command: () => this.router.navigate(['/comissao']),
-      },
+
       {
         label: this.showLabels ? 'Relatórios ' : '',
         icon: 'pi pi-cloud',
