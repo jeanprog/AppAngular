@@ -2,11 +2,18 @@
   [toastConfig]="toastConfig"
   (eventoExclusao)="deletarComissaoFranqueado($event)"
 />
-<div class="flex flex-col justify-center gap-2 items-center h-full w-[100%]">
-  <div class="w-full flex justify-between items-center p-4 bg-slate-700">
-    <h1 class="text-slate-300 font-bold">Comissoes Franqueados</h1>
+<div
+  class="flex flex-col mt-2 justify-center gap-2 items-center h-full w-[100%]"
+>
+  <div
+    class="w-full flex justify-between items-center p-4 bg-slate-200 dark:bg-slate-700"
+  >
+    <h1 class="dark:text-slate-300 text-slate-700 font-bold">
+      Comissoes Franqueados
+    </h1>
     <button class="text-white" (click)="fecharComissao()">
-      <span class="pi pi-times text-[24px]"> </span>
+      <span class="pi pi-times text-[24px] dark:text-slate-300 text-slate-700">
+      </span>
     </button>
   </div>
 
@@ -18,30 +25,34 @@
   <div class="w-[96%] mb-2 dark:bg-slate-700 rounded-lg mt-4">
     <form [formGroup]="comissaoForm" class="flex gap-2 p-2">
       <div class="flex w-[50%] flex-col p-2 gap-2">
-        <label class="dark:text-white font-bold">Nome</label>
+        <label class="dark:text-white text-slate-500 font-bold">Nome</label>
         <span
-          class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="flex p-2 items-center h-12 dark:text-slate-400 text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
         >
           {{ PropsItemFranquia?.sNome }}
         </span>
-        <label class="dark:text-white font-bold">Email</label>
+        <label class="dark:text-white text-slate-500 font-bold">Email</label>
 
         <span
-          class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="flex p-2 items-center h-12 dark:text-slate-400 text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
         >
           {{ PropsItemFranquia?.sEmail }}
         </span>
-        <label class="dark:text-white font-bold">Data de Abertura</label>
+        <label class="dark:text-white text-slate-500 font-bold"
+          >Data de Abertura</label
+        >
         @if(PropsItemFranquia?.dtDataHoraCadastro){
         <span
-          class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="flex p-2 items-center h-12 dark:text-slate-400 text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
         >
           {{ formatDate(PropsItemFranquia?.dtDataHoraCadastro) }}
         </span>
         }
-        <label class="dark:text-white font-bold"> LinkFranquia </label>
+        <label class="dark:text-white text-slate-500 font-bold">
+          LinkFranquia
+        </label>
         <span
-          class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="flex p-2 items-center h-12 dark:text-slate-400 text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
         >
           {{ PropsItemFranquia?.sLinkFranquia }}
         </span>
@@ -61,14 +72,15 @@
         </label>
 
         } @else {
-        <label class="dark:text-white font-bold">
+        <label class="dark:text-slate-300 text-slate-500 font-bold">
           Definir nova comissão franqueado %
         </label>
         }
+
         <input
           formControlName="percentual"
           type="number"
-          class="h-12 p-2 dark:text-slate-300 pr-4 dark:focus:outline-none rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="h-12 p-2 dark:text-slate-300 text-slate-500 pr-4 dark:focus:outline-none rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
         />
         @if(this.alterandoComissao === true ){
         <button
