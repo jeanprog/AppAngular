@@ -61,7 +61,7 @@ export class ComissaoHttpRepository implements ComissaoRepository {
   deletarComissao(iComissaoID: number): Observable<void> {
     const api = `${
       this.api
-    }Comissoes/DeletarComissao?iComissaoID=${iComissaoID.toString()}`;
+    }Comissoes/DeletarComissoesFranqueado?iComissaoID=${iComissaoID.toString()}`;
     console.log('Requisição DELETE para:', api);
 
     // Executa a requisição DELETE e observa a saída

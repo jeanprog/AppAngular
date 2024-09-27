@@ -1,8 +1,13 @@
-<toast [toastConfig]="toastConfig" />
+<toast
+  [toastConfig]="toastConfig"
+  (eventoExclusao)="deletarComissaoFranqueado($event)"
+/>
 <div class="flex flex-col justify-center gap-2 items-center h-full w-[100%]">
   <div class="w-full flex justify-between items-center p-4 bg-slate-700">
     <h1 class="text-slate-300 font-bold">Comissoes Franqueados</h1>
-    <button class="text-white" (click)="fecharComissao()">close</button>
+    <button class="text-white" (click)="fecharComissao()">
+      <span class="pi pi-times text-[24px]"> </span>
+    </button>
   </div>
 
   <!--   <button
@@ -10,12 +15,8 @@
   >
     Adicionar Comissão
   </button> -->
-  <div class="w-[96%] h-[90%] dark:bg-slate-700 rounded-lg mt-4">
-    <form
-      [formGroup]="comissaoForm"
-      (ngSubmit)="cadastrarNovaComissao()"
-      class="flex gap-2 p-2"
-    >
+  <div class="w-[96%] mb-2 dark:bg-slate-700 rounded-lg mt-4">
+    <form [formGroup]="comissaoForm" class="flex gap-2 p-2">
       <div class="flex w-[50%] flex-col p-2 gap-2">
         <label class="dark:text-white font-bold">Nome</label>
         <span
@@ -31,11 +32,13 @@
           {{ PropsItemFranquia?.sEmail }}
         </span>
         <label class="dark:text-white font-bold">Data de Abertura</label>
+        @if(PropsItemFranquia?.dtDataHoraCadastro){
         <span
           class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
         >
-          {{ PropsItemFranquia?.dtDataHoraCadastro }}
+          {{ formatDate(PropsItemFranquia?.dtDataHoraCadastro) }}
         </span>
+        }
         <label class="dark:text-white font-bold"> LinkFranquia </label>
         <span
           class="flex p-2 items-center h-12 dark:text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
@@ -44,53 +47,122 @@
         </span>
       </div>
       <div class="flex flex-col w-[50%] gap-2 p-2">
-        <label class="dark:text-white font-bold">
-          Definir Nova Comissão %
+        @if(this.alterandoComissao === true){
+        <label class="dark:text-slate-400 font-bold pt-6">
+          Alterando comissão franqueado %
         </label>
+        <label class="dark:text-white font-bold">
+          Você esta alterando a comissao de identidade:
+          {{ iComissaoID }}
+        </label>
+
+        <label class="dark:text-white font-bold">
+          porcentagem Anterior % {{ porcetagemAnterior }}
+        </label>
+
+        } @else {
+        <label class="dark:text-white font-bold">
+          Definir nova comissão franqueado %
+        </label>
+        }
         <input
           formControlName="percentual"
           type="number"
-          class="h-12 p-2 pr-4 rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
+          class="h-12 p-2 dark:text-slate-300 pr-4 dark:focus:outline-none rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-500"
         />
+        @if(this.alterandoComissao === true ){
         <button
+          (click)="alteraComissaoFranqueado()"
+          class="bg-indigo-500 mt-12 ml-32 text-white w-[50%] font-bold h-12 rounded-lg hover:bg-indigo-800"
+        >
+          Alterar
+        </button>
+        } @else {
+        <button
+          (click)="cadastrarNovaComissao()"
           class="bg-indigo-500 mt-12 ml-32 text-white w-[50%] font-bold h-12 rounded-lg hover:bg-indigo-800"
         >
           salvar
         </button>
+        }
       </div>
     </form>
 
     <div class="mt-2 p-4">
-      <span class="text-slate-400 font-semibold p-2"> Lista de Comissões</span>
-      <div class="relative overflow-hidden shadow-md rounded-lg">
-        <table class="table-fixed w-full text-left">
-          <thead
-            class="uppercase bg-[#35373b] text-[#e5e7eb]"
-            style="background-color: rgb(30 41 59); color: #e5e7eb"
-          >
+      <span class="text-slate-300 text-[16px] font-semibold p-2">
+        Lista de Comissões</span
+      >
+      <div class="relative overflow-hidden shadow-md rounded-lg mt-4">
+        <p-table
+          [value]="comissoesFranqueados"
+          [paginator]="true"
+          [rows]="5"
+          [tableStyle]="{ 'min-width': '50rem' }"
+          [rowsPerPageOptions]="[5, 10, 20]"
+        >
+          <ng-template pTemplate="header">
+            <tr class="row-header">
+              <th
+                class="text-blue-900 dark:bg-slate-800 dark:text-gray-300 text-[12px]"
+                style="width: 25%"
+              >
+                ID
+              </th>
+              <th
+                class="text-blue-900 dark:bg-slate-800 dark:text-gray-300 text-[12px]"
+                style="width: 25%"
+              >
+                PORCETAGEM %
+              </th>
+              <th
+                class="text-blue-900 dark:bg-slate-800 dark:text-gray-300 text-[12px]"
+                style="width: 25%"
+              >
+                DATA DE CADASTRO
+              </th>
+              <th
+                class="text-blue-900 dark:bg-slate-800 dark:text-gray-300 text-[12px]"
+                style="width: 25%"
+              >
+                AÇÕES
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-comissao>
             <tr>
-              <td class="py-1 text-center p-4" contenteditable="true">
-                ComissaoID
+              <td class="dark:bg-slate-600 dark:text-slate-400">
+                <div
+                  class="p-2 dark:bg-slate-400 w-10 h-10 flex justify-center items-center rounded-full"
+                >
+                  <span class="dark:text-slate-800 text-[16px]">
+                    {{ comissao.iComissaoID }}
+                  </span>
+                </div>
               </td>
-              <td class="py-1 text-center p-4" contenteditable="true">
-                Percentual
+
+              <td class="dark:bg-slate-600 dark:text-slate-400">
+                {{ comissao.nPercentualComissao }}
               </td>
-              <td class="py-1 text-center p-4" contenteditable="true">
-                Data Cadastro
+              <td class="dark:bg-slate-600 dark:text-slate-400">
+                {{ formatDate(comissao.dtDataHora) }}
+              </td>
+              <td class="flex gap-2 dark:bg-slate-600 dark:text-slate-400">
+                <button
+                  (click)="editarComissaoFranqueado(comissao)"
+                  class="bg-indigo-600 rounded-lg text-slate-300 p-2"
+                >
+                  editar
+                </button>
+                <button
+                  (click)="confirmDeletarComissao(comissao.iComissaoID)"
+                  class="bg-red-400 rounded-lg text-slate-300 p-2"
+                >
+                  apagar
+                </button>
               </td>
             </tr>
-          </thead>
-          <tbody
-            class="text-gray-500 bg-[#545252]"
-            style="background-color: rgb(71 85 105); color: #dedede"
-          >
-            <tr *ngFor="let comissao of comissoesFranqueados">
-              <td class="">{{ comissao.iComissaoID }}</td>
-              <td class="">{{ comissao.nPercentualComissao }}%</td>
-              <td class="border px-4 py-2">{{ comissao.dtDataHora }}</td>
-            </tr>
-          </tbody>
-        </table>
+          </ng-template>
+        </p-table>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@ export class Comissao {
     public iParceiroID: number,
     public iFranquiaID: number,
     public nPercentualComissao: number,
-    public dtDataHora?: Date,
+    public dtDataHora?: String,
     public iComissaoID?: number
   ) {}
 }

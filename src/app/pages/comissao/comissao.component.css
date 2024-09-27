@@ -1,0 +1,16 @@
+:host ::ng-deep .p-table .row-header {
+  background-color: #2d3748 !important;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+:host ::ng-deep .p-paginator-rpp-options {
+  @apply dark:bg-slate-800;
+}
+
+:host ::ng-deep .p-paginator {
+  @apply dark:bg-slate-800;
+
+  @apply dark:text-white;
+}
