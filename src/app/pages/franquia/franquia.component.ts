@@ -327,7 +327,7 @@ export class FranquiaComponent implements OnInit {
 
   editarItem(franquia: Franquia) {
     this.showModal.show();
-    console.log('passei aqui');
+
     // ta adicionando dois na lista por isso está dando merda !
     if (this.listaAlteraFranquia.length > 0) {
       // Substitui o objeto na primeira posição
@@ -368,11 +368,9 @@ export class FranquiaComponent implements OnInit {
   }
 
   finalizaDeleteNoBanco(event: boolean) {
-    console.log('chamou metodo');
     if (event === true) {
       this.listaDeletarFranquia.forEach((franquia) => {
         const { iFranquiaID, iParceiroID } = franquia;
-        console.log('chamou metodo dentro do event');
 
         if (iFranquiaID) {
           this.request.deletarFranquia(iFranquiaID, iParceiroID).subscribe({
@@ -386,7 +384,6 @@ export class FranquiaComponent implements OnInit {
               this.listarFranquias();
               this.listaDeletarFranquia = [];
               this.deleteTodosFinalizado = true;
-              console.log(this.listaDeletarFranquia);
             },
             error: (error) => {
               console.log('não foi possivel deletar a franquia', error);

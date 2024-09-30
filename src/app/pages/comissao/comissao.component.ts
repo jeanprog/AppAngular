@@ -22,11 +22,19 @@ import { formatDate, formatDateIso } from '../../utils/format-date';
 import { ToastComponent } from '../../components/toast/toast.component';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { MessagesModule } from 'primeng/messages';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-comissao',
   standalone: true,
-  imports: [TableModule, ReactiveFormsModule, ToastComponent, CommonModule],
+  imports: [
+    MessagesModule,
+    TableModule,
+    ReactiveFormsModule,
+    ToastComponent,
+    CommonModule,
+  ],
   templateUrl: './comissao.component.html',
   styleUrls: ['./comissao.component.css'],
 })
@@ -39,11 +47,12 @@ export class ComissaoComponent {
   comissoesFranqueados: Comissao[] = [];
   iComissaoID!: number;
   updateComissao!: Comissao;
+  messages: Message[] = [];
 
   private comissaoService = inject(ComissaoRepositoreService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  private location = inject(Location);
+  /*  private location = inject(Location); */
 
   comissaoForm: FormGroup = this.createForm();
   alterandoComissao: boolean = false;
@@ -171,7 +180,12 @@ export class ComissaoComponent {
 
   cadastrarNovaComissao(): void {
     if (this.comissaoForm.invalid || !this.PropsItemFranquia) {
-      console.error('Formulário inválido ou franquia não definida.');
+      this.messages = [
+        {
+          severity: 'info',
+          detail: 'Você não adicionou um percentual',
+        },
+      ];
       return;
     }
 
