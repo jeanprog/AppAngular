@@ -19,3 +19,7 @@
   box-shadow: none !important; /* Remove a sombra */
   outline: none !important; /* Remove o contorno de foco */
 }
+
+:host ::ng-deep .p-breadcrumb {
+  @apply dark:bg-slate-800 text-[16px] dark:text-white !important;
+}
