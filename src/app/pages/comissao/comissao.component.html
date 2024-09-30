@@ -21,8 +21,11 @@
     Adicionar Comissão
   </button> -->
   <div class="w-[96%] mb-2 dark:bg-slate-700 rounded-lg mt-4">
-    <form [formGroup]="comissaoForm" class="flex gap-2 p-2">
-      <div class="flex w-[50%] flex-col p-2 gap-2">
+    <form
+      [formGroup]="comissaoForm"
+      class="flex flex-col lg:flex-row sm:flex-col gap-2 p-2"
+    >
+      <div class="flex lg:w-[50%] flex-col p-2 gap-2">
         <label class="dark:text-white text-slate-500 font-bold">Nome</label>
         <span
           class="flex p-2 items-center h-12 dark:text-slate-400 text-slate-400 font-bold rounded-lg dark:bg-slate-600 dark:border-none border-[1px] border-slate-400"
@@ -55,9 +58,11 @@
           {{ PropsItemFranquia?.sLinkFranquia }}
         </span>
       </div>
-      <div class="flex flex-col justify-center items-center w-[50%] gap-2 p-4">
+      <div
+        class="flex flex-col justify-center items-center lg:w-[50%] gap-2 p-4"
+      >
         <div
-          class="w-[70%] border border-slate-500 rounded-lg p-6 flex flex-col justify-center items-center"
+          class="lg:w-[70%] border border-slate-500 rounded-lg p-6 flex flex-col justify-center items-center"
         >
           @if(this.alterandoComissao === true){
           <label class="dark:text-slate-400 font-bold pt-6">
